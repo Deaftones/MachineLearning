@@ -1,5 +1,4 @@
 #include <iostream>
-#include <Eigen/dense>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -79,9 +78,18 @@ double Squash(Neuron& a, Neuron& b) {
 	return v;
 }
 
+double MakePositive(Neuron& c)
+{
+	double x = c.get_p_neuron_weight();
+	if (x < 0) {
+		x = 0;
+	}
+	return x;
+}
+
 //==== M - A - I - N ===========================================================================
 int main() {
-	double min = 0.0;
+	double min = -1.0;
 	double max = 1.0;
 	std::random_device rd;
 	std::default_random_engine eng(rd());
@@ -104,42 +112,21 @@ int main() {
 
 	//LAYER THREE
 	Neuron L3_N1(Squash(L2_N1, L2_N4));
-	Neuron L3_N2(Squash(L2_N2, L2_N3));
-	Neuron L3_N3(Squash(L2_N2, L2_N4));
-	Neuron L3_N4(Squash(L2_N3, L2_N4));
+	Neuron L3_N2(Squash(L2_N1, L2_N4));
+	Neuron L3_N3(Squash(L2_N2, L2_N3));
+	Neuron L3_N4(Squash(L2_N2, L2_N3));
 
 	//LAYER FOUR
-	Neuron L4_N1(Squash(L3_N1, L3_N2));
-	Neuron L4_N2(Squash(L3_N1, L3_N3));
-	Neuron L4_N3(Squash(L3_N2, L3_N4));
-	Neuron L4_N4(Squash(L3_N3, L3_N4));
+	Neuron Final_N1(MakePositive(L3_N1));
+	Neuron Final_N2(MakePositive(L3_N2));
+	Neuron Final_N3(MakePositive(L3_N3));
+	Neuron Final_N4(MakePositive(L3_N4));
 
-	Grid_4x4 testgrid;
+	
 
-	bool topLeft, bottomLeft, topRight, bottomRight;
-	if (L4_N1.get_p_neuron_weight() < 0.5000) { topLeft = false; }
-	else { topLeft = true; };
-	if (L4_N2.get_p_neuron_weight() < 0.5000) {	bottomLeft = false;	}
-	else { bottomLeft = true; };
-	if (L4_N3.get_p_neuron_weight() < 0.5000) {	topRight= false; }
-	else { topRight = true; };
-	if (L4_N4.get_p_neuron_weight() < 0.5000) {	bottomRight = false; }
-	else { bottomRight = true; };
+	
 
-	std::array<bool, 4> guess{topLeft, bottomLeft, topRight, bottomRight};
-
-	if (guess == testgrid.sWhite) {
-		std::cout << "This is correct!";
-	}
-	else
-	{
-		double error = 0.0;
-		if (topLeft != testgrid.sWhite[0]) {
-			error +=  
-		}
-	}
-
-/*	std::cout << "LAYER 1:\n";
+	std::cout << "LAYER 1:\n";
 	std::cout << L1_N1.get_p_neuron_weight() << '\n';
 	std::cout << L1_N2.get_p_neuron_weight() << '\n';
 	std::cout << L1_N3.get_p_neuron_weight() << '\n';
@@ -150,7 +137,19 @@ int main() {
 	std::cout << L2_N2.get_p_neuron_weight() << '\n';
 	std::cout << L2_N3.get_p_neuron_weight() << '\n';
 	std::cout << L2_N4.get_p_neuron_weight() << '\n';
-*/
+
+	std::cout << "LAYER 3:\n";
+	std::cout << L3_N1.get_p_neuron_weight() << '\n';
+	std::cout << L3_N2.get_p_neuron_weight() << '\n';
+	std::cout << L3_N3.get_p_neuron_weight() << '\n';
+	std::cout << L3_N4.get_p_neuron_weight() << '\n';
+
+	std::cout << "LAYER Final:\n";
+	std::cout << Final_N1.get_p_neuron_weight() << '\n';
+	std::cout << Final_N2.get_p_neuron_weight() << '\n';
+	std::cout << Final_N3.get_p_neuron_weight() << '\n';
+	std::cout << Final_N4.get_p_neuron_weight() << '\n';
+
 
 	return 0;
 };
