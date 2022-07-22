@@ -38,10 +38,10 @@ public:
 	void PrintMapsVector()
 	{
 		for (int i = 0; i < NumElements(); ++i)
-		{
+	{
 			std::cout << PixelMap[i] << '\t';
 			if ((i+1) % GetMRows() == 0)
-			{
+	{
 				std::cout << '\n' << '\n' << '\n' << '\n';
 			}
 		}
@@ -51,7 +51,7 @@ public:
 };
 
 
- 
+
 
 
 
