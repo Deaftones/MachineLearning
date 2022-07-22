@@ -1,4 +1,6 @@
 #pragma once
+#ifndef MAPS_H
+#define MAPS_H
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -9,8 +11,6 @@
 #include <map>
 #include <unordered_map>
 #include <random>
-#ifndef MAPS_H
-#define MAPS_H
 
 class Maps
 {
@@ -26,28 +26,28 @@ public:
 	int GetMRows() { return m_rows; };
 	int GetMColumns() { return m_columns; };
 	int NumElements() { return GetMRows() * GetMColumns(); };
-	
-	void CreateMap() 
+	void CreateMap()
 	{
 		for (int i = 0; i < NumElements(); ++i)
 		{
 			PixelMap.push_back(0.0f);
 		}
 	}
-	
-	void PrintMapsVector()
+	void PrintMap()
 	{
+		int rows = GetMRows();
 		for (int i = 0; i < NumElements(); ++i)
-	{
+		{
 			std::cout << PixelMap[i] << '\t';
-			if ((i+1) % GetMRows() == 0)
-	{
+			if ((i + 1) % GetMRows() == 0)
+			{
 				std::cout << '\n' << '\n' << '\n' << '\n';
 			}
+			
 		}
-
-	};
+	}
 	~Maps() {};
+
 };
 
 
